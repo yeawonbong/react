@@ -19,6 +19,7 @@ const Card = (props) => {
 const Main = (props) => {
   let [shoes, setShoes] = useState([...props.shoes])
   let [cnt, setCnt] = useState(2)
+  let loading = false
   // console.log(props.shoes)
 
   return (
@@ -40,17 +41,20 @@ const Main = (props) => {
       {
         cnt < 4 ? 
         <button onClick={() => {
+          loading = true
           setCnt(cnt + 1)
           console.log(cnt)
           axios.get(`https://codingapple1.github.io/shop/data${cnt}.json`)
             .then((data) => {
               setShoes([...shoes, ...data.data])
               console.log(shoes)
+              loading = false
             })
             .catch(() => {
               console.log('실패')
+              loading = false
             })
-        }}>더보기</button>
+        }}>{loading == false ? "더보기" : "loading..."}</button>
         : null
       }
     </div>
