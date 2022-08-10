@@ -8,6 +8,7 @@ import Main from './routes/Main'
 import Detail from './routes/Detail'
 import About from './routes/About'
 import Event from './routes/Event'
+import Cart from './routes/Cart'
 
 function App() {
 
@@ -21,8 +22,8 @@ function App() {
           <Navbar.Brand onClick={() => navigate('/')} href="#home">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={() => navigate('/')} href="#home">Home</Nav.Link>
-            <Nav.Link onClick={() => navigate('/detail')} href="#features">Detail</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link onClick={() => navigate('/cart')} href="">Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main shoes={shoes}/>}/>
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
+        <Route path="/cart" element={<Cart/>}/>
         <Route path="/about" element={<About/>}>
           <Route path="member" element={<div>멤버임</div>}/>
           <Route path="location" element={<div>위치정보임</div>}/>

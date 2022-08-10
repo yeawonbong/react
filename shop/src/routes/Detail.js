@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom"
-import { Nav, NavItem } from "react-bootstrap"
+import { useParams, useNavigate } from "react-router-dom"
+import { Nav } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../store/store";
+
 // import styled from "styled-components";
 
 // let YellowBtn = styled.button`
@@ -9,18 +12,21 @@ import { Nav, NavItem } from "react-bootstrap"
 //   padding : 10px; 
 // `
 
+
 const Detail = (props) => {
 
   const [alert, setAlert] = useState(true)
   const [text, setText] = useState(true)
   const [tab, setTab] = useState(0)
   let [fade, setFade] = useState('')
-
+  let states = useSelector((state) => {return state})
+  let dispatch = useDispatch()
   let { id } = useParams();
   const imgsrc = `https://codingapple1.github.io/shop/shoes${Number(id) + 1}.jpg`
   let 찾은상품 = props.shoes.find(function (x) {
     return x.id == id
   });
+  let navigate = useNavigate()
 
   useEffect(() => {
     let timer = setTimeout(() => { setAlert(false) }, 2000)
@@ -50,7 +56,6 @@ const Detail = (props) => {
           </div>
           : null
       }
-      <input onChange={(e) => { setText(e.nativeEvent.data); console.log(e.nativeEvent.data) }}></input>
       <div className="row">
         <div className="col-md-6">
           <img src={imgsrc} alt="shoe" width="100%" />
@@ -59,7 +64,10 @@ const Detail = (props) => {
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button className="btn btn-danger" onClick={() => {
+            dispatch(addItem(찾은상품.title))
+            // navigate('/cart')
+            }}>주문하기</button>
         </div>
       </div>
 
