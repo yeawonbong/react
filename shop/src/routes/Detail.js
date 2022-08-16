@@ -29,6 +29,14 @@ const Detail = (props) => {
   let navigate = useNavigate()
 
   useEffect(() => {
+    let list = JSON.parse(localStorage.getItem('watched'))
+    list.push(찾은상품.id)
+    list = new Set(list)
+    list = Array.from(list)
+    localStorage.setItem('watched', JSON.stringify(list))
+  }, [])
+
+  useEffect(() => {
     let timer = setTimeout(() => { setAlert(false) }, 2000)
     let fadeTimer = setTimeout(() => { setFade('end')}, 100)
     return () => {

@@ -1,15 +1,25 @@
+import { memo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addCount } from "../store/store";
+import { addCount, minusCount } from "../store/store";
+
+let Child = memo(
+  function() {
+    console.log("재랜더링")
+    return <div>자식이다</div>
+  }) 
+
 function Cart() {
 
   let states = useSelector((state) => {return state})
   let dispatch = useDispatch()
-  console.log()
+  let [count, setCount] = useState(0)
 
   return (
     <div>
-      {states.user.name}
+      <Child></Child>
+      <button onClick={() => { setCount(count+1) }}>재랜더링 버튼</button>
+      {states.user.name}의 장바구니
       <Table>
         <thead>
           <tr>
@@ -24,12 +34,15 @@ function Cart() {
               states.cart.map((cart, i) => {
                 return (
                   <tr>
-                    <td>{i}</td>
+                    <td>{states.cart[i].id}</td>
                     <td>{states.cart[i].name}</td>
                     <td>{states.cart[i].count}</td>
                     <td><button onClick={() => {
-                      dispatch(addCount(i))
-                    }}>+</button></td>
+                      dispatch(addCount(states.cart[i].id))
+                    }}>+</button>
+                    <button onClick={() => {
+                      dispatch(minusCount(states.cart[i].id))
+                    }}>-</button></td>
                   </tr>
                 )
               })
